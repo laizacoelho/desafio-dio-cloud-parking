@@ -55,6 +55,7 @@ public class ParkingService {
         parkingRepository.delete(parking);
     }
 
+    @Transactional
     public ParkingResponseDto update(String id, Parking parking) {
         Parking parkingDB = parkingRepository.findById(id).orElseThrow(ParkingNotFoundException::new);
         parking.setId(parkingDB.getId());
