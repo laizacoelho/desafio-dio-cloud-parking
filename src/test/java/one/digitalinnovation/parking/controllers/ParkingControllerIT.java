@@ -26,28 +26,11 @@ class ParkingControllerIT {
     void whenFindAllThenCheckResult() {
         RestAssured.given()
                 .when()
+                .auth()
+                .basic("user", "123")
                 .get("/parkings")
                 .then()
                 .statusCode(HttpStatus.OK.value());
-    }
-
-    @Test
-    void whenSaveThenCheckResult() {
-        var createDto = new ParkingRequestDto();
-        createDto.setLicense("CFI5876");
-        createDto.setModel("Etios");
-        createDto.setState("RJ");
-        createDto.setColor("preto");
-
-
-        RestAssured.given()
-                .when()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(createDto)
-                .post("/parkings")
-                .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .body("license", Matchers.equalTo("CFI5876"));
     }
 
     @Test
@@ -61,6 +44,8 @@ class ParkingControllerIT {
 
         RestAssured.given()
                 .when()
+                .auth()
+                .basic("user", "123")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(createDto)
                 .get("/parkings/placa/CFI5876")
