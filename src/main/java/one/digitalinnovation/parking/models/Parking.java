@@ -1,5 +1,6 @@
 package one.digitalinnovation.parking.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.util.UUID;
 public class Parking {
     @Id
     private String id;
+    @Column(unique = true)
     private String license;
     private String state;
     private String model;

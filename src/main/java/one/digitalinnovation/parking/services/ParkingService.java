@@ -59,7 +59,14 @@ public class ParkingService {
     public ParkingResponseDto update(String id, Parking parking) {
         Parking parkingDB = parkingRepository.findById(id).orElseThrow(ParkingNotFoundException::new);
         parking.setId(parkingDB.getId());
+        parking.setEntryDate(parkingDB.getEntryDate());
+        parking.setExitDate(parkingDB.getExitDate());
         return parkingMapper.toParkingResponseDto(
                         parkingRepository.save(parking));
+    }
+    
+    public ParkingResponseDto findByLicense(String license) {
+        Parking byLicense = parkingRepository.findByLicense(license);
+        return parkingMapper.toParkingResponseDto(byLicense);
     }
 }

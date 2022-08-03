@@ -1,9 +1,10 @@
 package one.digitalinnovation.parking.dtos;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class ParkingRequestDto {
-
+    @NotNull
     private String license;
     private String state;
     private String model;

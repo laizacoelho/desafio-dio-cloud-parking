@@ -40,6 +40,11 @@ public class ParkingController {
         return ResponseEntity.ok(parkingService.findById(id));
     }
 
+    @GetMapping("/placa/{license}")
+    public ResponseEntity<ParkingResponseDto> findByLicense(@PathVariable String license){
+        return ResponseEntity.ok(parkingService.findByLicense(license));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable String id){
         parkingService.delete(id);
@@ -51,7 +56,7 @@ public class ParkingController {
                                                      @RequestBody @Valid ParkingRequestDto parkingRequestDto) {
         Parking parking = new Parking();
         BeanUtils.copyProperties(parkingRequestDto, parking);
-        return ResponseEntity.ok(parkingService.update(id, parking));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(parkingService.update(id, parking));
     }
 
 
