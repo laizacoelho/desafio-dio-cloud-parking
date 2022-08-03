@@ -48,7 +48,7 @@ public class ParkingController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable String id){
         parkingService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping("/{id}")

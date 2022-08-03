@@ -6,7 +6,7 @@ import one.digitalinnovation.parking.dtos.ParkingResponseDto;
 import one.digitalinnovation.parking.exeptions.ParkingNotFoundException;
 import one.digitalinnovation.parking.models.Parking;
 import one.digitalinnovation.parking.models.ParkingArchive;
-import one.digitalinnovation.parking.models.ParkingArchiveRepository;
+import one.digitalinnovation.parking.repositories.ParkingArchiveRepository;
 import org.springframework.stereotype.Service;
 import one.digitalinnovation.parking.repositories.ParkingRepository;
 

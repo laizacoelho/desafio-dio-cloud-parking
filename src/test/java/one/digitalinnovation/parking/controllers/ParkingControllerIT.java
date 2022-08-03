@@ -68,22 +68,4 @@ class ParkingControllerIT {
                 .statusCode(HttpStatus.OK.value())
                 .body("model", Matchers.equalTo("Etios"));
     }
-
-    @Test
-    void whenExitThenCheckResult() {
-        var createDto = new ParkingRequestDto();
-        createDto.setLicense("CFI5876");
-        createDto.setModel("Etios");
-        createDto.setState("RJ");
-        createDto.setColor("preto");
-
-
-        RestAssured.given()
-                .when()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(createDto)
-                .get("/parkings/saida/CFI5876")
-                .then()
-                .statusCode(HttpStatus.OK.value());
-    }
 }
