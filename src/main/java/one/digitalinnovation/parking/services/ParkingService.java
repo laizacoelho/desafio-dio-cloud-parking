@@ -33,9 +33,9 @@ public class ParkingService {
         this.parkingArchiveRepository = parkingArchiveRepository;
     }
 
-     private static String getUUID() {
-        return UUID.randomUUID().toString().replace("-","");
-     }
+    private static String getUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
 
     public List<ParkingResponseDto> findAll() {
         List<Parking> parkingList = parkingRepository.findAll();
@@ -68,9 +68,9 @@ public class ParkingService {
         parking.setEntryDate(parkingDB.getEntryDate());
         parking.setExitDate(parkingDB.getExitDate());
         return parkingMapper.toParkingResponseDto(
-                        parkingRepository.save(parking));
+                parkingRepository.save(parking));
     }
-    
+
     public ParkingResponseDto findByLicense(String license) {
         Parking byLicense = parkingRepository.findByLicense(license);
         return parkingMapper.toParkingResponseDto(byLicense);
@@ -79,9 +79,14 @@ public class ParkingService {
     public ParkingResponseDto exit(String license) {
         Parking parking = parkingRepository.findByLicense(license);
         parking.setExitDate(LocalDateTime.now());
+        parkingCheckout(parking);
+        return parkingMapper.toParkingResponseDto(parking);
+    }
+
+    private void parkingCheckout(Parking parking) {
+        parking.setBill(ParkingCheckout.getBill(parking));
         ParkingArchive parkingArchive = parkingArchiveMapper.toParkingArchive(parking);
         parkingArchiveRepository.save(parkingArchive);
         parkingRepository.delete(parking);
-        return parkingMapper.toParkingResponseDto(parking);
     }
 }
