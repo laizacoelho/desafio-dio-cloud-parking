@@ -1,30 +1,36 @@
 package one.digitalinnovation.parking.services;
 
+import one.digitalinnovation.parking.dtos.ParkingArchiveMapper;
 import one.digitalinnovation.parking.dtos.ParkingMapper;
-import one.digitalinnovation.parking.dtos.ParkingRequestDto;
 import one.digitalinnovation.parking.dtos.ParkingResponseDto;
 import one.digitalinnovation.parking.exeptions.ParkingNotFoundException;
 import one.digitalinnovation.parking.models.Parking;
-import org.springframework.beans.BeanUtils;
+import one.digitalinnovation.parking.models.ParkingArchive;
+import one.digitalinnovation.parking.models.ParkingArchiveRepository;
 import org.springframework.stereotype.Service;
 import one.digitalinnovation.parking.repositories.ParkingRepository;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class ParkingService {
     private final ParkingRepository parkingRepository;
     private final ParkingMapper parkingMapper;
+    private final ParkingArchiveMapper parkingArchiveMapper;
+    private final ParkingArchiveRepository parkingArchiveRepository;
 
 
-    public ParkingService(ParkingRepository parkingRepository, ParkingMapper parkingMapper) {
+    public ParkingService(ParkingRepository parkingRepository,
+                          ParkingMapper parkingMapper,
+                          ParkingArchiveMapper parkingArchiveMapper,
+                          ParkingArchiveRepository parkingArchiveRepository) {
         this.parkingRepository = parkingRepository;
         this.parkingMapper = parkingMapper;
+        this.parkingArchiveMapper = parkingArchiveMapper;
+        this.parkingArchiveRepository = parkingArchiveRepository;
     }
 
      private static String getUUID() {
@@ -68,5 +74,14 @@ public class ParkingService {
     public ParkingResponseDto findByLicense(String license) {
         Parking byLicense = parkingRepository.findByLicense(license);
         return parkingMapper.toParkingResponseDto(byLicense);
+    }
+
+    public ParkingResponseDto exit(String license) {
+        Parking parking = parkingRepository.findByLicense(license);
+        parking.setExitDate(LocalDateTime.now());
+        ParkingArchive parkingArchive = parkingArchiveMapper.toParkingArchive(parking);
+        parkingArchiveRepository.save(parkingArchive);
+        parkingRepository.delete(parking);
+        return parkingMapper.toParkingResponseDto(parking);
     }
 }

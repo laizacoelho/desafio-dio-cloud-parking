@@ -59,6 +59,8 @@ public class ParkingController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(parkingService.update(id, parking));
     }
 
-
-
+    @GetMapping("/saida/{license}")
+    public ResponseEntity<ParkingResponseDto> exit(@PathVariable String license) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(parkingService.exit(license));
+    }
 }
