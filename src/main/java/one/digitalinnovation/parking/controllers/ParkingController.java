@@ -48,7 +48,7 @@ public class ParkingController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable String id){
         parkingService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/{id}")
@@ -56,11 +56,11 @@ public class ParkingController {
                                                      @RequestBody @Valid ParkingRequestDto parkingRequestDto) {
         Parking parking = new Parking();
         BeanUtils.copyProperties(parkingRequestDto, parking);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(parkingService.update(id, parking));
+        return ResponseEntity.status(HttpStatus.OK).body(parkingService.update(id, parking));
     }
 
     @GetMapping("/saida/{license}")
     public ResponseEntity<ParkingResponseDto> exit(@PathVariable String license) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(parkingService.exit(license));
+        return ResponseEntity.status(HttpStatus.OK).body(parkingService.exit(license));
     }
 }

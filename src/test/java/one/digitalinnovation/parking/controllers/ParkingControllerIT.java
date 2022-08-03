@@ -2,7 +2,6 @@ package one.digitalinnovation.parking.controllers;
 
 import io.restassured.RestAssured;
 import one.digitalinnovation.parking.dtos.ParkingRequestDto;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,5 +48,42 @@ class ParkingControllerIT {
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .body("license", Matchers.equalTo("CFI5876"));
+    }
+
+    @Test
+    void whenFindByLicenseThenCheckResult() {
+        var createDto = new ParkingRequestDto();
+        createDto.setLicense("CFI5876");
+        createDto.setModel("Etios");
+        createDto.setState("RJ");
+        createDto.setColor("preto");
+
+
+        RestAssured.given()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(createDto)
+                .get("/parkings/placa/CFI5876")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("model", Matchers.equalTo("Etios"));
+    }
+
+    @Test
+    void whenExitThenCheckResult() {
+        var createDto = new ParkingRequestDto();
+        createDto.setLicense("CFI5876");
+        createDto.setModel("Etios");
+        createDto.setState("RJ");
+        createDto.setColor("preto");
+
+
+        RestAssured.given()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(createDto)
+                .get("/parkings/saida/CFI5876")
+                .then()
+                .statusCode(HttpStatus.OK.value());
     }
 }
