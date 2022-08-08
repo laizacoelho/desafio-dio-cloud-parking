@@ -1,7 +1,7 @@
 # Desafio DIO: Cloud-parking
 
 Desafio de conclusão do Bootcamp Spring Framework Experience:
-Criado os sistema de um estacionamento para cadastro de carros na entrada e saída com o calculo da tarifa.
+Criado o sistema de um estacionamento para cadastro de carros na entrada e saída com o calculo da tarifa.
 
 ## Tecnologias utlizadas
 - Java 17
